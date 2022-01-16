@@ -24,7 +24,7 @@ public class HolePlacer : MonoBehaviour
     {
         foreach (var plane in arPlaneManager.trackables)
         {
-            plane.gameObject.SetActive(true);
+            plane.gameObject.SetActive(false);
         }
 
         if (Input.touchCount > 0)
