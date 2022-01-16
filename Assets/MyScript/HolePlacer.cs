@@ -9,6 +9,7 @@ public class HolePlacer : MonoBehaviour
 {
     GameObject holes;
     public GameObject holesPrefab;
+    public GameObject molePrefab;
     ARRaycastManager arRaycastManager;
     ARPlaneManager arPlaneManager;
     List<ARRaycastHit> hits = new List<ARRaycastHit>();
@@ -34,7 +35,7 @@ public class HolePlacer : MonoBehaviour
                 // when ray hit plane return true, and plane info in hits
                 if (arRaycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
                 {
-                    Pose pose = hits[hits.Count - 1].pose;
+                    Pose pose = hits[0].pose;
                     ArriveHole(pose);
 		        }
             }
@@ -52,7 +53,20 @@ public class HolePlacer : MonoBehaviour
             {
                 holes = Instantiate(holesPrefab, pose.position, pose.rotation);
 	        }
+            GenerateMoles();
         }
+    }
 
+    void GenerateMoles()
+    { 
+        foreach (Transform t in holes.transform)
+        {
+            GameObject hole = t.gameObject;
+            if (hole.tag == "Hole")
+            {
+                Vector3 pos = hole.transform.position;
+                Instantiate(molePrefab, pos, molePrefab.transform.rotation);
+	        }
+	    }
     }
 }

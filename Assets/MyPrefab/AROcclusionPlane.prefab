@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4692990008864774106}
   - component: {fileID: 6535238168008338236}
   m_Layer: 0
-  m_Name: AR Default Plane
+  m_Name: AROcclusionPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f1a110d32af21aa4d872c707dfcc6043, type: 2}
+  - {fileID: 2100000, guid: 5ee4dafa1c0ca43b0a11ebc5e9c6ffa1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
