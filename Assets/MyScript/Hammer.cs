@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
+using UnityEngine.UI;
 
 public class Hammer : MonoBehaviour
 {
     [SerializeField] Camera arCamera;
-    //ARRaycastManager arRaycastManager;
-    //List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    int count = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         //arRaycastManager = GetComponent<ARRaycastManager>();
@@ -31,9 +28,11 @@ public class Hammer : MonoBehaviour
             var ray = arCamera.ScreenPointToRay(touch.position);
             if (Physics.Raycast(ray,out hit))
             { 
-                if (hit.collider.CompareTag("Hole"))
+                if (hit.collider.CompareTag("Mole"))
                 {
                     hit.collider.gameObject.GetComponent<MoleController>().Hit();
+                    count++;
+                    GameObject.Find("Score").GetComponent<Text>().text = "Score: " + count.ToString();
 		        }
 	        }
       //      if (arRaycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))

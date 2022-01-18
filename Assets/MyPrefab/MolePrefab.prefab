@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSpan: 2
-  effect: {fileID: 0}
+  effect: {fileID: 6908990256737931545, guid: 97e6d08fc8e8947a08db2f1dd824fadb, type: 3}
 --- !u!1 &8873845871107402410
 GameObject:
   m_ObjectHideFlags: 0

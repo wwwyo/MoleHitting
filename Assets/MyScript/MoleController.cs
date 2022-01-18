@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MoleController : MonoBehaviour
 {
@@ -14,18 +15,23 @@ public class MoleController : MonoBehaviour
 
     private void Up()
     {
-        transform.position = groundLevel;
+        transform.DOMoveY(groundLevel.y, 0.5f);
+        //transform.position = groundLevel;
         isOnGround = true;
     }
 
     private void Down()
     {
-        transform.position = undergroundLevel;
+        //transform.position = undergroundLevel;
+        transform.DOMoveY(undergroundLevel.y, 0.5f);
         isOnGround = false; 
     }
 
     public void Hit()
     {
+        GameObject g = Instantiate(effect, transform.position + new Vector3(0, 0.04f, 0), effect.transform.rotation);
+        Destroy(g, 1.0f);
+
         time = 0;
         Down();
     }
