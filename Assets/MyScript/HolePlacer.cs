@@ -45,15 +45,15 @@ public class HolePlacer : MonoBehaviour
     void ArriveHole(Pose pose)
     {
         {
-            if (holes)
+            if (!holes)
             { 
-                holes.transform.position = pose.position;
+                holes = Instantiate(holesPrefab, pose.position, pose.rotation);
+                GenerateMoles();
 	        }
             else
             {
-                holes = Instantiate(holesPrefab, pose.position, pose.rotation);
+                //holes.transform.position = pose.position;
 	        }
-            GenerateMoles();
         }
     }
 

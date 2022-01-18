@@ -24,6 +24,12 @@ public class MoleController : MonoBehaviour
         isOnGround = false; 
     }
 
+    public void Hit()
+    {
+        time = 0;
+        Down();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 3681326352876991702}
   m_Layer: 0
   m_Name: MolePrefab
-  m_TagString: Untagged
+  m_TagString: Mole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
