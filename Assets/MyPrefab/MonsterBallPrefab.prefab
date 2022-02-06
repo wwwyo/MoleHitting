@@ -67,6 +67,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterBallPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa9ea01e5a5bd419385dfa257c2c6de5, type: 3}
+      propertyPath: m_TagString
+      value: Ball
+      objectReference: {fileID: 0}
     - target: {fileID: 2598969785905196127, guid: aa9ea01e5a5bd419385dfa257c2c6de5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -95,3 +99,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-752822636143579896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8654262899484141255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60901194f543742cfb183b1cc14339e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

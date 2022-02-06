@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hole
   - Mole
+  - Ball
   layers:
   - Default
   - TransparentFX
