@@ -27,38 +27,25 @@ public class BallController : MonoBehaviour
         if (Input.touchCount > 0)
         {
             var touch = Input.GetTouch(0);
-            RaycastHit hit;
-            var ray = arCamera.ScreenPointToRay(touch.position);
-            // no hit
-            if (!Physics.Raycast(ray, out hit))
+            switch (touch.phase)
             {
-                return;
-            }
-
-            if (hit.collider.CompareTag("Ball"))
-            {
-                switch (touch.phase)
-                {
-                    case TouchPhase.Began:
-                        transform.localScale = (initialScale * 1.1f);
-                        break;
-                    case TouchPhase.Moved:
-                        if (arRaycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
-                        {
-                            Pose pose = hits[0].pose;
-                            transform.position = pose.position;
-                        }
-                        break;
-                    case TouchPhase.Ended:
-                        transform.localScale = initialScale;
-                        break;
-                    default:
-                        break;
-                }
+                case TouchPhase.Began:
+                    transform.localScale = (initialScale * 1.2f);
+                    break;
+                case TouchPhase.Moved:
+                    var pos = arCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 12.5f));
+                    transform.position = pos;
+                    break;
+                case TouchPhase.Ended:
+                    transform.localScale = initialScale;
+                    break;
+                default:
+                    break;
             }
         } else {
             Vector3 pos = arCamera.ViewportToWorldPoint(initialPos);
-            transform.position = Vector3.MoveTowards(transform.position, pos, 0.1f);
+            transform.position = pos;
+            //transform.LookAt(arCamera.transform);
         }
     }
 

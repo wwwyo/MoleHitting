@@ -22,10 +22,10 @@ public class HolePlacer : MonoBehaviour
 
     void Update()
     {
-        foreach (var plane in arPlaneManager.trackables)
-        {
-            plane.gameObject.SetActive(false);
-        }
+        //foreach (var plane in arPlaneManager.trackables)
+        //{
+        //    //plane.gameObject.SetActive(false);
+        //}
 
         if (Input.touchCount > 0)
 	    {
