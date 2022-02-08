@@ -16,13 +16,11 @@ public class MoleController : MonoBehaviour
     private void Up()
     {
         transform.DOMoveY(groundLevel.y, 0.5f);
-        //transform.position = groundLevel;
         isOnGround = true;
     }
 
     private void Down()
     {
-        //transform.position = undergroundLevel;
         transform.DOMoveY(undergroundLevel.y, 0.5f);
         isOnGround = false; 
     }
@@ -47,6 +45,7 @@ public class MoleController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("digda position:" + transform.position.ToString());
         time += Time.deltaTime;
         if (time > timeSpan)
         {

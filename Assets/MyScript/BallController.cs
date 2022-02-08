@@ -14,8 +14,9 @@ public class BallController : MonoBehaviour
     Vector3 startPos;
     Vector3 endPos;
     float duration;
-    float xSpeed = 0;
-    float ySpeed = 0;
+    float xSpeed;
+    float ySpeed;
+    public float zSpeed = 3;
     Rigidbody m_rigidbody;
     Rect rect = new Rect(0, 0, 1, 1);
 
@@ -30,10 +31,12 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
-     //   if (Input.GetMouseButtonDown(0)) {
-     //       isThrow = true;
-     //       ThrowBall();
-	    //}
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    isThrow = true;
+        //    ThrowBall();
+        //}
+        Debug.Log("ball position" + transform.position.ToString());
         duration += Time.deltaTime;
         if (Input.touchCount > 0)
         {
@@ -55,7 +58,6 @@ public class BallController : MonoBehaviour
                     if (duration < 1 && IsFlic())
                     {
                         isThrow = true;
-                        Debug.Log(isThrow);
                         ThrowBall();
                     }
                     break;
@@ -65,6 +67,8 @@ public class BallController : MonoBehaviour
         }
         else if (isThrow)
         {
+            Vector3 new_pos = transform.position;
+            m_rigidbody.AddForce(Vector3.down, ForceMode.Force); 
             if (!isVisible()) { 
                 Destroy(this);
 	        }
@@ -86,16 +90,16 @@ public class BallController : MonoBehaviour
     bool IsFlic()
     {
         float dist = Vector3.Distance(endPos, startPos);
-        xSpeed = Mathf.Abs(endPos.x - startPos.x)/duration;
-        ySpeed = Mathf.Abs(endPos.y - startPos.y)/duration;
-        Debug.Log(xSpeed.ToString() + ":" + ySpeed.ToString());
-        return (xSpeed >= 3 || ySpeed >= 3);
+        xSpeed = (endPos.x - startPos.x)/duration;
+        ySpeed = (endPos.y - startPos.y)/duration;
+        Debug.Log(ySpeed.ToString() + ":" + ySpeed.ToString());
+        return (Mathf.Abs(ySpeed) >= 2);
     }
 
     void ThrowBall()
     {
         Debug.Log("throw");
-        m_rigidbody.AddForce(xSpeed, ySpeed, 5.0f, ForceMode.Impulse);
+        m_rigidbody.AddForce(xSpeed, ySpeed, zSpeed, ForceMode.Impulse);
         return;
     }
 

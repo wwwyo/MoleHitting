@@ -35,7 +35,7 @@ public class HolePlacer : MonoBehaviour
                 // when ray hit plane return true, and plane info in hits
                 if (arRaycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
                 {
-                    Pose pose = hits[0].pose;
+                    Pose pose = hits[hits.Count -1].pose;
                     ArriveHole(pose);
 		        }
             }
