@@ -14,9 +14,9 @@ public class BallController : MonoBehaviour
     Vector3 startPos;
     Vector3 endPos;
     float duration;
-    float xSpeed;
-    float ySpeed;
-    public float zSpeed = 3;
+    public float xSpeed = 0;
+    public float ySpeed = 1;
+    public float zSpeed = 1;
     Rigidbody m_rigidbody;
     Rect rect = new Rect(0, 0, 1, 1);
 
@@ -25,18 +25,21 @@ public class BallController : MonoBehaviour
         arCamera = Camera.main;
         Director = GameObject.Find("Director");
         initialScale = transform.localScale;
+        initialPos.x = arCamera.ScreenToViewportPoint(transform.position).x;
+        initialPos.y = arCamera.ScreenToViewportPoint(transform.position).y;
+        initialPos.z = transform.position.z;
         transform.LookAt(arCamera.transform.position);
         m_rigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    isThrow = true;
-        //    ThrowBall();
-        //}
-        Debug.Log("ball position" + transform.position.ToString());
+        if (Input.GetMouseButtonDown(0))
+        {
+            isThrow = true;
+            ThrowBall();
+        }
+        //Debug.Log("ball position" + transform.position.ToString());
         duration += Time.deltaTime;
         if (Input.touchCount > 0)
         {
@@ -68,22 +71,22 @@ public class BallController : MonoBehaviour
         else if (isThrow)
         {
             Vector3 new_pos = transform.position;
-            m_rigidbody.AddForce(Vector3.down, ForceMode.Force); 
+            m_rigidbody.AddForce(Vector3.down * 2, ForceMode.Force); 
             if (!isVisible()) { 
                 Destroy(this);
 	        }
         }
         else if (!isThrow)
         {
-            Vector3 pos = arCamera.ViewportToWorldPoint(initialPos);
-            transform.position = pos;
+            //Vector3 pos = arCamera.ViewportToWorldPoint(initialPos);
+            //transform.position = pos;
         }
     }
 
     private void OnDestroy()
     {
         if (Director != null) { 
-            Director.GetComponent<Director>().Arrive();
+            Director.GetComponent<Director>().Arrive(arCamera.ViewportToWorldPoint(initialPos));
 	    }
     }
 
@@ -91,14 +94,13 @@ public class BallController : MonoBehaviour
     {
         float dist = Vector3.Distance(endPos, startPos);
         xSpeed = (endPos.x - startPos.x)/duration;
-        ySpeed = (endPos.y - startPos.y)/duration;
-        Debug.Log(ySpeed.ToString() + ":" + ySpeed.ToString());
+        //ySpeed = (endPos.y - startPos.y)/duration;
+        //Debug.Log(ySpeed.ToString() + ":" + ySpeed.ToString());
         return (Mathf.Abs(ySpeed) >= 2);
     }
 
     void ThrowBall()
     {
-        Debug.Log("throw");
         m_rigidbody.AddForce(xSpeed, ySpeed, zSpeed, ForceMode.Impulse);
         return;
     }
@@ -108,5 +110,15 @@ public class BallController : MonoBehaviour
         var viewportPos = arCamera.WorldToViewportPoint(transform.position);
         return rect.Contains(viewportPos);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Mole")) {
+            collision.gameObject.GetComponent<MoleController>().Hit();
+            Destroy(this);
+	    }
+    }
+
+
 
 }

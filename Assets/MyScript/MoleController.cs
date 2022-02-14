@@ -38,14 +38,14 @@ public class MoleController : MonoBehaviour
     void Start()
     {
         groundLevel = transform.position;
-        undergroundLevel = groundLevel - new Vector3(0,0.2f,0);
+        undergroundLevel = groundLevel - new Vector3(0,2f,0);
 
         Down();
     }
 
     void Update()
     {
-        Debug.Log("digda position:" + transform.position.ToString());
+        //Debug.Log("digda position:" + transform.position.ToString());
         time += Time.deltaTime;
         if (time > timeSpan)
         {
