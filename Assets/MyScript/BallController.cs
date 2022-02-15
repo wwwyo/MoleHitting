@@ -7,27 +7,24 @@ using UnityEngine.XR.ARSubsystems;
 public class BallController : MonoBehaviour
 {
     Camera arCamera;
-    Vector3 initialPos = new Vector3(0.5f, 0.1f, 12.5f);
-    Vector3 initialScale;
+    float initialZ = 2;
     GameObject Director;
     bool isThrow = false;
     Vector3 startPos;
     Vector3 endPos;
     float duration;
-    public float xSpeed = 0;
-    public float ySpeed = 1;
-    public float zSpeed = 1;
+    float xSpeed;
+    float ySpeed;
+    float zSpeed = 1.5f;
     Rigidbody m_rigidbody;
     Rect rect = new Rect(0, 0, 1, 1);
+    float throwSpan;
 
     void Start()
     {
+        Debug.Log(transform.position);
         arCamera = Camera.main;
         Director = GameObject.Find("Director");
-        initialScale = transform.localScale;
-        initialPos.x = arCamera.ScreenToViewportPoint(transform.position).x;
-        initialPos.y = arCamera.ScreenToViewportPoint(transform.position).y;
-        initialPos.z = transform.position.z;
         transform.LookAt(arCamera.transform.position);
         m_rigidbody = GetComponent<Rigidbody>();
     }
@@ -39,7 +36,6 @@ public class BallController : MonoBehaviour
             isThrow = true;
             ThrowBall();
         }
-        //Debug.Log("ball position" + transform.position.ToString());
         duration += Time.deltaTime;
         if (Input.touchCount > 0)
         {
@@ -47,16 +43,15 @@ public class BallController : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    transform.localScale = (initialScale * 1.2f);
                     startPos = transform.position;
                     duration = 0;
+                    throwSpan = 0;
                     break;
                 case TouchPhase.Moved:
-                    var pos = arCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 12.5f));
+                    var pos = arCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, initialZ));
                     transform.position = pos;
                     break;
                 case TouchPhase.Ended:
-                    transform.localScale = initialScale;
                     endPos = transform.position;
                     if (duration < 1 && IsFlic())
                     {
@@ -70,10 +65,10 @@ public class BallController : MonoBehaviour
         }
         else if (isThrow)
         {
-            Vector3 new_pos = transform.position;
-            m_rigidbody.AddForce(Vector3.down * 2, ForceMode.Force); 
-            if (!isVisible()) { 
-                Destroy(this);
+            throwSpan += Time.deltaTime;
+            m_rigidbody.AddForce(Vector3.down, ForceMode.Force); 
+            if (throwSpan > 5 || !isVisible()) { 
+                Destroy(this.gameObject);
 	        }
         }
         else if (!isThrow)
@@ -86,22 +81,22 @@ public class BallController : MonoBehaviour
     private void OnDestroy()
     {
         if (Director != null) { 
-            Director.GetComponent<Director>().Arrive(arCamera.ViewportToWorldPoint(initialPos));
+            Director.GetComponent<Director>().Arrive();
 	    }
     }
 
     bool IsFlic()
     {
-        float dist = Vector3.Distance(endPos, startPos);
-        xSpeed = (endPos.x - startPos.x)/duration;
-        //ySpeed = (endPos.y - startPos.y)/duration;
-        //Debug.Log(ySpeed.ToString() + ":" + ySpeed.ToString());
-        return (Mathf.Abs(ySpeed) >= 2);
+        xSpeed = (endPos.x - startPos.x);
+        ySpeed = (endPos.y - startPos.y) * 1.5f;
+        return (Mathf.Abs(ySpeed) >= 1);
     }
 
     void ThrowBall()
     {
-        m_rigidbody.AddForce(xSpeed, ySpeed, zSpeed, ForceMode.Impulse);
+        Debug.Log(ySpeed);
+        Debug.Log(zSpeed);
+        m_rigidbody.AddForce(xSpeed, ySpeed, zSpeed * ySpeed, ForceMode.Impulse);
         return;
     }
 
@@ -115,7 +110,7 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Mole")) {
             collision.gameObject.GetComponent<MoleController>().Hit();
-            Destroy(this);
+            Destroy(this.gameObject);
 	    }
     }
 
