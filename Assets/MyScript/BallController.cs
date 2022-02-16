@@ -22,20 +22,20 @@ public class BallController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(transform.position);
         arCamera = Camera.main;
         Director = GameObject.Find("Director");
         transform.LookAt(arCamera.transform.position);
         m_rigidbody = GetComponent<Rigidbody>();
+        //Debug.Log(arCamera.WorldToViewportPoint(transform.position));
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            isThrow = true;
-            ThrowBall();
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    isThrow = true;
+        //    ThrowBall();
+        //}
         duration += Time.deltaTime;
         if (Input.touchCount > 0)
         {
@@ -53,7 +53,7 @@ public class BallController : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     endPos = transform.position;
-                    if (duration < 1 && IsFlic())
+                    if (IsFlic())
                     {
                         isThrow = true;
                         ThrowBall();
@@ -89,14 +89,12 @@ public class BallController : MonoBehaviour
     {
         xSpeed = (endPos.x - startPos.x);
         ySpeed = (endPos.y - startPos.y) * 1.5f;
-        return (Mathf.Abs(ySpeed) >= 1);
+        return (Mathf.Abs(ySpeed) >= 0.1);
     }
 
     void ThrowBall()
     {
-        Debug.Log(ySpeed);
-        Debug.Log(zSpeed);
-        m_rigidbody.AddForce(xSpeed, ySpeed, zSpeed * ySpeed, ForceMode.Impulse);
+        m_rigidbody.AddForce(xSpeed, ySpeed / 4, ySpeed, ForceMode.Impulse);
         return;
     }
 
