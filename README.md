@@ -3,7 +3,7 @@
 ポケモンGO〜ディグダ〜
 
 # DEMO
-![pokemonGO](https://user-images.githubusercontent.com/72675978/154691268-57d1393b-4af9-432c-8e44-e2a1aba372c7.gif)
+![ポケモン](https://user-images.githubusercontent.com/72675978/154694404-b1c3b12e-961b-46f8-a54e-5ac402fc28ac.gif)
 
  # Features
 
